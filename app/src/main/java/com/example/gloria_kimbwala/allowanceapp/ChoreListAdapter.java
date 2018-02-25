@@ -12,10 +12,10 @@ import java.util.List;
  * Created by gloria_kimbwala on 1/6/18.
  */
 
-public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.ViewHolder>{
+public class ChoreListAdapter extends RecyclerView.Adapter<ChoreListAdapter.ViewHolder>{
     List<String> chores;
 
-    public ChoresAdapter(List<String> chores) {
+    public ChoreListAdapter(List<String> chores) {
         this.chores = chores;
     }
 
@@ -23,7 +23,7 @@ public class ChoresAdapter extends RecyclerView.Adapter<ChoresAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.list_item, parent, false);
+                .inflate(R.layout.list_chore, parent, false);
         return new ViewHolder(v);
     }
 

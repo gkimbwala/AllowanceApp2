@@ -8,7 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class ChoreListActivity extends AppCompatActivity {
 
     private TextView nameTextview;
     private TextView allowanceTextview;
@@ -17,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.chore_list_activity);
         nameTextview = (TextView) findViewById(R.id.name);
         allowanceTextview = (TextView) findViewById(R.id.allowance);
         choresRecyclerView = (RecyclerView)findViewById(R.id.chores);
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
             nameTextview.setText(allowanceRate.name);
             allowanceTextview.setText(Long.toString(allowanceRate.allowance));
-            choresRecyclerView.setAdapter(new ChoresAdapter(allowanceRate.chores));
+            choresRecyclerView.setAdapter(new ChoreListAdapter(allowanceRate.chores));
             choresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
             Log.i("Allowance", allowanceRate.name + " gets " + allowanceRate.allowance + " for " + allowanceRate.chores);
         } catch (Exception e) {
