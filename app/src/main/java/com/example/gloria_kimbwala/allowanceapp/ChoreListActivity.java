@@ -30,7 +30,7 @@ public class ChoreListActivity extends AppCompatActivity {
             AllowanceServiceStuff allowanceServiceStuff = new AllowanceServiceStuff();
             AllowanceRate allowanceRate = allowanceServiceStuff.getAllowanceRate("gloria");
 
-            nameTextview.setText(allowanceRate.name);
+
             allowanceTextview.setText(Long.toString(allowanceRate.allowance));
             choresRecyclerView.setAdapter(new ChoreListAdapter(allowanceRate.chores));
             choresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -40,4 +40,13 @@ public class ChoreListActivity extends AppCompatActivity {
         }
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String userName = (String) getIntent().getExtras().get("userName");
+        nameTextview.setText(userName);
+    }
+
+
 }

@@ -1,9 +1,12 @@
 package com.example.gloria_kimbwala.allowanceapp;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -28,8 +31,18 @@ public class UserListAdapter extends RecyclerView.Adapter<UserListAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        holder.userName.setText(users.get(position));
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
+        final String userName = users.get(position);
+        holder.userName.setText(userName);
+        holder.userName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = holder.userName.getContext();
+                Intent intent = new Intent(context, ChoreListActivity.class);
+                intent.putExtra("userName", userName);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
