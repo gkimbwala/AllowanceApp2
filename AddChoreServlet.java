@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Singleton
-public class SignUpServlet extends HttpServlet {
+public class AddChoreServlet extends HttpServlet {
     @Inject
     AllowanceService allowanceService;
     @Inject
@@ -23,31 +23,31 @@ public class SignUpServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
         try (BufferedSource source = Okio.buffer(Okio.source(req.getInputStream()));
              BufferedSink sink = Okio.buffer(Okio.sink(resp.getOutputStream()))) {
 
-            JsonAdapter<SignUpRequest> requestAdapter = moshi.adapter(SignUpRequest.class);
-            SignUpRequest request = requestAdapter.fromJson(source);
+            JsonAdapter<AddChoreRequest> requestAdapter = moshi.adapter(AddChoreRequest.class);
+            AddChoreRequest request = requestAdapter.fromJson(source);
 
-            UserId userId = allowanceService.signUp(request.name);
+            Chore chore = allowanceService.addChore(new UserId(request.userId), request.name, request.description, request.rate);
 
-            SignUpResponse response = new SignUpResponse();
-            response.userId = userId.userId;
+            AddChoreResponse response = new AddChoreResponse();
+            response.chore = chore;
 
-            JsonAdapter<SignUpResponse> responseAdapter = moshi.adapter(SignUpResponse.class);
+            JsonAdapter<AddChoreResponse> responseAdapter = moshi.adapter(AddChoreResponse.class);
             responseAdapter.toJson(sink, response);
         }
     }
 
-    // this object is passed by the Android App to the server
-    static class SignUpRequest {
-        String name;
-    }
 
-    static class SignUpResponse {
+    static class AddChoreRequest {
         String userId;
+        String name;
+        String description;
+        float rate;
     }
 
+    static class AddChoreResponse {
+        Chore chore;
+    }
 }
-
