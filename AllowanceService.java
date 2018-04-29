@@ -6,7 +6,7 @@ public interface AllowanceService {
 
     UserId signUp(String name);
 
-    ChildId addChild(UserId userId, String childName);
+    UserId addChild(UserId userId, String childName);
 
     Chore addChore(UserId userId, String childName, String description, float rate);
 

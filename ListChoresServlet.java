@@ -7,15 +7,15 @@ import okio.BufferedSource;
 import okio.Okio;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
-@Singleton
-public class AddChildServlet extends HttpServlet {
+public class ListChoresServlet extends HttpServlet {
+
     @Inject
     AllowanceService allowanceService;
     @Inject
@@ -27,25 +27,26 @@ public class AddChildServlet extends HttpServlet {
         try (BufferedSource source = Okio.buffer(Okio.source(req.getInputStream()));
              BufferedSink sink = Okio.buffer(Okio.sink(resp.getOutputStream()))) {
 
-            JsonAdapter<AddChildRequest> requestAdapter = moshi.adapter(AddChildRequest.class);
-            AddChildRequest request = requestAdapter.fromJson(source);
+            JsonAdapter<ListChoresServlet.ListChoreRequest> requestAdapter = moshi.adapter(ListChoresServlet.ListChoreRequest.class);
+            ListChoresServlet.ListChoreRequest request = requestAdapter.fromJson(source);
 
-            UserId userId = allowanceService.addChild(new UserId(request.userId), request.name);
+            List<Chore> listChores = allowanceService.listChores(new UserId(request.userId));
 
-            AddChildResponse response = new AddChildResponse();
-            response.childId = userId.userId;
+            ListChoresServlet.ListChoreResponse response = new ListChoresServlet.ListChoreResponse();
+            response.chores = listChores;
 
-            JsonAdapter<AddChildResponse> responseAdapter = moshi.adapter(AddChildResponse.class);
+            JsonAdapter<ListChoresServlet.ListChoreResponse> responseAdapter = moshi.adapter(ListChoresServlet.ListChoreResponse.class);
             responseAdapter.toJson(sink, response);
         }
     }
 
-    static class AddChildRequest {
+    static class ListChoreRequest {
         String userId;
-        String name;
     }
 
-    static class AddChildResponse {
-        String childId;
+    static class ListChoreResponse {
+        String userId;
+        List<Chore> chores;
     }
 }
+

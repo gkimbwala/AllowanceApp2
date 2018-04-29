@@ -2,10 +2,10 @@ package myapp;
 
 public class Child {
     public final String name;
-    public final ChildId childId;
+    public final UserId userId;
 
-    public Child(String name, ChildId childId) {
+    public Child(String name, UserId userId) {
         this.name = name;
-        this.childId = childId;
+        this.userId = userId;
     }
 }
